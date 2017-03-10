@@ -19,7 +19,7 @@
 #define Font_size_value 15*VIEWLAYOUT_H
 #define TextColor [UIColor whiteColor]
 #define spaceMargin 15
-#define selfCornerRadius 5
+#define selfCornerRadius 10
 #define defaultAlpha 0.8
 #define defaultImage_w_h 30*VIEWLAYOUT_W
 
