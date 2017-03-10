@@ -31,7 +31,7 @@
 @property (nonatomic, assign) UIFont *textFont;
 /**动画时长，设置多久后消失*/
 @property (nonatomic, assign) CGFloat animationValue;
-/**是否可点击*/
+/**是否支持出现提示框时下层的view可点击*/
 @property (nonatomic, assign) BOOL EnableClickBackView;
 
 /**

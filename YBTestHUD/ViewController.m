@@ -66,7 +66,6 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }
 
-
 - (void)testMBProgressHUD
 {
     [MBProgressHUD showError:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了"];

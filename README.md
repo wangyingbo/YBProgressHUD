@@ -26,7 +26,7 @@
 
 ![YBProgressHUD](https://raw.githubusercontent.com/wangyingbo/YBProgressHUD/master/images/yb.gif)
 
-
+   
 + 接入也很简单，只需导入`YBProgressHUD_Header.h`就可以使用了，调用的时候有以下几种方式：
 
         - (void)testYBProgressHUD

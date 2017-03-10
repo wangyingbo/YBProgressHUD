@@ -136,7 +136,7 @@ static YBProgressHUD *_progressHUD;
 - (CGSize)messageSize
 {
     _messageSize = [self sizeWithFont:self.textFont withString:self.message maxSize:CGSizeMake(FULL_SCREEN_WIDTH*2/3, FULL_SCREEN_HEIGHT/2)];
-    _messageSize = CGSizeMake(_messageSize.width + self.spaceMarginValue, _messageSize.height + self.spaceMarginValue);
+    _messageSize = CGSizeMake(_messageSize.width + self.spaceMarginValue, _messageSize.height + self.spaceMarginValue + 5);//手动加5
     return _messageSize;
 }
 
