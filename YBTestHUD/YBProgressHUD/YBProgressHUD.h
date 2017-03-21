@@ -25,6 +25,8 @@
 @property (nonatomic, assign) CGFloat spaceMarginValue;
 /**图片大小*/
 @property (nonatomic, assign) CGFloat tipImageViewWH;
+/**HUD位置*/
+@property (nonatomic, assign) CGFloat selfOriginY;
 /**透明度，大于1的时候自动为0.8*/
 @property (nonatomic, assign) CGFloat alphaValue;
 /**提示字体*/

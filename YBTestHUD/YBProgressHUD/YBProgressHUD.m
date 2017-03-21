@@ -142,7 +142,7 @@ static YBProgressHUD *_progressHUD;
 
 - (void)initSelf
 {
-    self.frame = CGRectMake(FULL_SCREEN_WIDTH/2 - self.selfSize.width/2, FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2, self.selfSize.width, self.selfSize.height);
+    self.frame = CGRectMake(FULL_SCREEN_WIDTH/2 - self.selfSize.width/2, self.selfOriginY, self.selfSize.width, self.selfSize.height);
     
     self.backgroundColor = self.backColor;
     self.alpha = self.alphaValue;
@@ -190,6 +190,14 @@ static YBProgressHUD *_progressHUD;
         }
     }
     return _tipImageViewWH;
+}
+
+- (CGFloat)selfOriginY
+{
+    if (!_selfOriginY) {
+        _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+    }
+    return _selfOriginY;
 }
 
 - (void)setEnableClickBackView:(BOOL)EnableClickBackView
