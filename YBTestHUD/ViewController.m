@@ -40,7 +40,7 @@
 - (void)testYBProgressHUD
 {
     /**第一种*/
-    YBInstanceProgressHUD.tipImage = [UIImage imageNamed:@"yb_error"];    [YBInstanceProgressHUD showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了"];
+    YBInstanceProgressHUD.tipImage = [UIImage imageNamed:@"yb_error"];    [YBInstanceProgressHUD showMessage:@"qq"];
     
     /**第二种*/
 //    [[YBProgressHUD shareInstance] showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了"];
