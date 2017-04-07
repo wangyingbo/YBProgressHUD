@@ -81,16 +81,42 @@ static YBProgressHUD *_progressHUD;
     
 }
 
+- (void)showMessage:(NSString *)message withCompletion:(YBProgressHUDCompletion)completion
+{
+    self.message = message;
+    
+    [self initSelf];
+    self.titleLabel.hidden = NO;
+    if (self.tipImage) {
+        self.tipImageView.hidden = NO;
+    }
+    
+    [self dismissWithCompletion:completion];
+}
+
 - (void)showMessage:(NSString *)message withErrorImage:(UIImage *)errorImage
 {
     if (errorImage) {
         self.tipImage = errorImage;
     }else {
-        YBLog(@"您选定的图片为空，已自动设成默认图片");
+        //YBLog(@"您选定的图片为空，已自动设成默认图片");
         self.tipImage = [UIImage imageNamed:@"yb_error"];
     }
     
     [self showMessage:message];
+}
+
+- (void)showMessage:(NSString *)message withErrorImage:(UIImage *)errorImage withCompletion:(YBProgressHUDCompletion)completion
+{
+    if (errorImage) {
+        self.tipImage = errorImage;
+    }else {
+        //YBLog(@"您选定的图片为空，已自动设成默认图片");
+        self.tipImage = [UIImage imageNamed:@"yb_error"];
+    }
+    
+    [self showMessage:message withCompletion:completion];
+
 }
 
 - (void)showMessage:(NSString *)message withSuccessImage:(UIImage *)successImage
@@ -98,11 +124,25 @@ static YBProgressHUD *_progressHUD;
     if (successImage) {
         self.tipImage = successImage;
     }else {
-        YBLog(@"您选定的图片为空，已自动设成默认图片");
+        //YBLog(@"您选定的图片为空，已自动设成默认图片");
         self.tipImage = [UIImage imageNamed:@"yb_success"];
     }
     
     [self showMessage:message];
+}
+
+
+- (void)showMessage:(NSString *)message withSuccessImage:(UIImage *)successImage withCompletion:(YBProgressHUDCompletion)completion
+{
+    if (successImage) {
+        self.tipImage = successImage;
+    }else {
+        //YBLog(@"您选定的图片为空，已自动设成默认图片");
+        self.tipImage = [UIImage imageNamed:@"yb_success"];
+    }
+    
+    [self showMessage:message withCompletion:completion];
+
 }
 
 
@@ -119,6 +159,25 @@ static YBProgressHUD *_progressHUD;
         }];
     });
 
+}
+
+- (void)dismissWithCompletion:(YBProgressHUDCompletion)completion
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.animationValue * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.tipImageView removeFromSuperview];
+            [self.titleLabel removeFromSuperview];
+            self.titleLabel = nil;
+            self.tipImageView = nil;
+            [self removeFromSuperview];
+            [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
+            
+            if (completion) {
+                completion();
+            }
+        }];
+    });
+    
 }
 
 - (CGSize)selfSize

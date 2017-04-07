@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-
+typedef void(^YBProgressHUDCompletion)();
 
 @interface YBProgressHUD : UIView
 
@@ -47,13 +47,28 @@
 - (void)showMessage:(NSString *)message;
 
 /**
+ * 提示文字层，提示成功回调
+ */
+- (void)showMessage:(NSString *)message withCompletion:(YBProgressHUDCompletion)completion;
+
+/**
  * 提示文字，并设定出错时的图片
  */
 - (void)showMessage:(NSString *)message withErrorImage:(UIImage *)errorImage;
 
 /**
+ * 提示文字，并设定出错时的图片，提示成功回调
+ */
+- (void)showMessage:(NSString *)message withErrorImage:(UIImage *)errorImage withCompletion:(YBProgressHUDCompletion)completion;
+
+/**
  * 提示文字，并设定成功时的图片
  */
 - (void)showMessage:(NSString *)message withSuccessImage:(UIImage *)successImage;
+
+/**
+ * 提示文字，并设定成功时的图片，提示成功回调
+ */
+- (void)showMessage:(NSString *)message withSuccessImage:(UIImage *)successImage withCompletion:(YBProgressHUDCompletion)completion;
 
 @end
