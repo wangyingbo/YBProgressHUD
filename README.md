@@ -29,6 +29,8 @@
    
 + 接入也很简单，只需导入`YBProgressHUD_Header.h`就可以使用了，调用的时候有以下几种方式：
 
+
+
 ![call_method](https://raw.githubusercontent.com/wangyingbo/YBProgressHUD/master/images/call_method.png)
 
 
@@ -64,6 +66,13 @@
             YBLog(@"success图片——————回调成功——————");
         }];
     }
+
++ 说明
+
+1、用第一种方法调用时，可以设置多种属性，再调起方法。需要注意的是各种属性需在调起方法之前设置才有效。
+
+2、用`[YBProgressHUD shareInstance]`和`YBInstanceProgressHUD`方法调起是一样的，因为用的是单例类，为了方便使用了宏定义。
+
 
         
 ##### 三、最后，放上项目地址，欢迎大家fork和star。 [YBProgressHUD](https://github.com/wangyingbo/YBProgressHUD)
