@@ -29,21 +29,42 @@
    
 + 接入也很简单，只需导入`YBProgressHUD_Header.h`就可以使用了，调用的时候有以下几种方式：
 
-        - (void)testYBProgressHUD
-        {
-            /**第一种*/
-            YBInstanceProgressHUD.tipImage = [UIImage imageNamed:@"yb_error"];
-            [YBInstanceProgressHUD showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了"];
-            
-            /**第二种*/
-            [[YBProgressHUD shareInstance] showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了"];
-            
-            /**第三种*/
-            [YBInstanceProgressHUD showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了" withSuccessImage:nil];
-            
-            /**第四种*/
-            [YBInstanceProgressHUD showMessage:@"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了" withErrorImage:[UIImage imageNamed:@"icon-20"]];
-        }
+![call_method](https://raw.githubusercontent.com/wangyingbo/YBProgressHUD/master/images/call_method.png)
+
+
+    - (void)testYBProgressHUD
+    {
+        NSString *tipString = @"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了";
+        
+        /**第一种*/
+        YBInstanceProgressHUD.tipImage = [UIImage imageNamed:@"yb_error"];
+        [YBInstanceProgressHUD showMessage:tipString];
+        
+        /**第二种*/
+        [[YBProgressHUD shareInstance] showMessage:tipString];
+        
+        /**第三种*/
+        [YBInstanceProgressHUD showMessage:tipString withSuccessImage:nil];
+        
+        /**第四种*/
+        [YBInstanceProgressHUD showMessage:tipString withErrorImage:[UIImage imageNamed:@"icon-20"]];
+        
+        /**第五种*/
+        [YBInstanceProgressHUD showMessage:tipString withCompletion:^{
+            YBLog(@"纯文字——————回调成功——————");
+        }];
+        
+        /**第六种*/
+        [YBInstanceProgressHUD showMessage:tipString withErrorImage:nil withCompletion:^{
+            YBLog(@"error图片——————回调成功——————");
+        }];
+        
+        /**第七种*/
+        [YBInstanceProgressHUD showMessage:tipString withSuccessImage:nil withCompletion:^{
+            YBLog(@"success图片——————回调成功——————");
+        }];
+    }
+
         
 ##### 三、最后，放上项目地址，欢迎大家fork和star。 [YBProgressHUD](https://github.com/wangyingbo/YBProgressHUD)
 
