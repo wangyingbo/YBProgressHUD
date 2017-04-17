@@ -22,6 +22,8 @@
 #define selfCornerRadius 10
 #define defaultAlpha 0.8
 #define defaultImage_w_h 30*VIEWLAYOUT_W
+#define BackColor [UIColor blackColor]
+#define defaultDelayAnimationValue 1.
 
 static YBProgressHUD *_progressHUD;
 
@@ -38,14 +40,20 @@ static YBProgressHUD *_progressHUD;
 
 @implementation YBProgressHUD
 
+static dispatch_once_t onceToken;
 #pragma mark - singleton
 + (YBProgressHUD *)shareInstance
 {
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _progressHUD = [[YBProgressHUD alloc]init];
     });
     return _progressHUD;
+}
+
++ (void)attemptDealloc
+{
+    onceToken = 0l;
+    _progressHUD = nil;
 }
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone
@@ -154,9 +162,19 @@ static YBProgressHUD *_progressHUD;
             [self.titleLabel removeFromSuperview];
             self.titleLabel = nil;
             self.tipImageView = nil;
+            self.textColor = TextColor;
+            self.backColor = BackColor;
+            self.tipImage = nil;
+            self.cornerRadiusValue = selfCornerRadius;
+            self.spaceMarginValue = spaceMargin;
+            self.tipImageViewWH = defaultImage_w_h;
             _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+            self.alphaValue = defaultAlpha;
+            self.textFont = [UIFont systemFontOfSize:Font_size_value];
+            self.animationValue = defaultDelayAnimationValue;
             [self removeFromSuperview];
             [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
+            
         }];
     });
 
@@ -170,7 +188,16 @@ static YBProgressHUD *_progressHUD;
             [self.titleLabel removeFromSuperview];
             self.titleLabel = nil;
             self.tipImageView = nil;
+            self.textColor = TextColor;
+            self.backColor =BackColor;
+            self.tipImage = nil;
+            self.cornerRadiusValue = selfCornerRadius;
+            self.spaceMarginValue = spaceMargin;
+            self.tipImageViewWH = defaultImage_w_h;
             _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+            self.alphaValue = defaultAlpha;
+            self.textFont = [UIFont systemFontOfSize:Font_size_value];
+            self.animationValue = defaultDelayAnimationValue;
             [self removeFromSuperview];
             [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
             
@@ -282,7 +309,7 @@ static YBProgressHUD *_progressHUD;
 - (UIColor *)backColor
 {
     if (!_backColor) {
-        _backColor = [UIColor blackColor];
+        _backColor = BackColor;
     }
     return _backColor;
 }
@@ -290,7 +317,7 @@ static YBProgressHUD *_progressHUD;
 - (CGFloat)animationValue
 {
     if (!_animationValue) {
-        _animationValue = 1.;
+        _animationValue = defaultDelayAnimationValue;
     }
     return _animationValue;
 }

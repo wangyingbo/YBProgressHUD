@@ -42,6 +42,11 @@ typedef void(^YBProgressHUDCompletion)();
 + (YBProgressHUD *)shareInstance;
 
 /**
+ * 销毁
+ */
++ (void)attemptDealloc;
+
+/**
  * 提示文字层
  */
 - (void)showMessage:(NSString *)message;
