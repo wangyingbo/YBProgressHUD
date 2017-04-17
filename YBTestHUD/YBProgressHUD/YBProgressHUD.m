@@ -154,6 +154,7 @@ static YBProgressHUD *_progressHUD;
             [self.titleLabel removeFromSuperview];
             self.titleLabel = nil;
             self.tipImageView = nil;
+            _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
             [self removeFromSuperview];
             [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
         }];
@@ -169,6 +170,7 @@ static YBProgressHUD *_progressHUD;
             [self.titleLabel removeFromSuperview];
             self.titleLabel = nil;
             self.tipImageView = nil;
+            _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
             [self removeFromSuperview];
             [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
             
