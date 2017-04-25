@@ -40,6 +40,10 @@ static YBProgressHUD *_progressHUD;
 
 @implementation YBProgressHUD
 
+//@synthesize messageSize = _messageSize;
+//@synthesize selfSize = _selfSize;
+
+
 static dispatch_once_t onceToken;
 #pragma mark - singleton
 + (YBProgressHUD *)shareInstance
@@ -74,7 +78,7 @@ static dispatch_once_t onceToken;
     return _progressHUD;
 }
 
-#pragma mark - private method
+#pragma mark - show method
 - (void)showMessage:(NSString *)message
 {
     self.message = message;
@@ -168,7 +172,7 @@ static dispatch_once_t onceToken;
             self.cornerRadiusValue = selfCornerRadius;
             self.spaceMarginValue = spaceMargin;
             self.tipImageViewWH = defaultImage_w_h;
-            _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+            _selfOriginY = 0;
             self.alphaValue = defaultAlpha;
             self.textFont = [UIFont systemFontOfSize:Font_size_value];
             self.animationValue = defaultDelayAnimationValue;
@@ -194,7 +198,7 @@ static dispatch_once_t onceToken;
             self.cornerRadiusValue = selfCornerRadius;
             self.spaceMarginValue = spaceMargin;
             self.tipImageViewWH = defaultImage_w_h;
-            _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+            _selfOriginY = 0;
             self.alphaValue = defaultAlpha;
             self.textFont = [UIFont systemFontOfSize:Font_size_value];
             self.animationValue = defaultDelayAnimationValue;
@@ -209,7 +213,9 @@ static dispatch_once_t onceToken;
     
 }
 
-- (CGSize)selfSize
+#pragma mark - custom getter
+
+- (CGSize)getSelfSize
 {
     if (self.tipImage)
     {
@@ -221,7 +227,7 @@ static dispatch_once_t onceToken;
     return _selfSize;
 }
 
-- (CGSize)messageSize
+- (CGSize)getMessageSize
 {
     _messageSize = [self sizeWithFont:self.textFont withString:self.message maxSize:CGSizeMake(FULL_SCREEN_WIDTH*2/3, FULL_SCREEN_HEIGHT/2)];
     CGFloat widthMessage = _messageSize.width>100?_messageSize.width:100;
@@ -229,8 +235,76 @@ static dispatch_once_t onceToken;
     return _messageSize;
 }
 
+- (CGFloat)getTipImageViewWH
+{
+    if (_tipImageViewWH <= 0)
+    {
+        _tipImageViewWH = defaultImage_w_h;
+    }
+    else
+    {
+        if (_tipImageViewWH>ProgressHUD_W) {
+            _tipImageViewWH = ProgressHUD_W;
+        }
+    }
+    return _tipImageViewWH;
+}
+
+- (CGFloat)getSpaceMarginValue
+{
+    if (_spaceMarginValue>ProgressHUD_W || _spaceMarginValue == 0)
+    {
+        _spaceMarginValue = spaceMargin;
+    }
+    return _spaceMarginValue;
+}
+
+- (CGFloat)getSelfOriginY
+{
+    if ( _selfOriginY<=0 || _selfOriginY > FULL_SCREEN_HEIGHT) {
+        _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
+    }
+    return _selfOriginY;
+}
+
+- (CGFloat)getAnimationValue
+{
+    if (_animationValue>30 || _animationValue<=0) {
+        _animationValue = defaultDelayAnimationValue;
+    }
+    return _animationValue;
+}
+
+- (CGFloat)getAlphaValue
+{
+    if (_alphaValue<=0 || _alphaValue>1) {
+        _alphaValue =  defaultAlpha;
+    }
+    return _alphaValue;
+}
+
+- (CGFloat)getCornerRadiusValue
+{
+    if (_cornerRadiusValue==0 || _cornerRadiusValue >ProgressHUD_W/2)
+    {
+        _cornerRadiusValue = selfCornerRadius;
+    }
+    return _cornerRadiusValue;
+}
+
 - (void)initSelf
 {
+    //YBLog(@"原始的：%f",self.tipImageViewWH);
+    
+    self.cornerRadiusValue = [self getCornerRadiusValue];
+    self.alphaValue = [self getAlphaValue];
+    self.animationValue = [self getAnimationValue];
+    self.spaceMarginValue = [self getSpaceMarginValue];
+    self.tipImageViewWH = [self getTipImageViewWH];
+    self.messageSize = [self getMessageSize];
+    self.selfSize = [self getSelfSize];
+    self.selfOriginY = [self getSelfOriginY];
+    
     self.frame = CGRectMake(FULL_SCREEN_WIDTH/2 - self.selfSize.width/2, self.selfOriginY, self.selfSize.width, self.selfSize.height);
     
     self.backgroundColor = self.backColor;
@@ -240,6 +314,7 @@ static dispatch_once_t onceToken;
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 }
 
+#pragma mark - overide getter
 - (UIImageView *)tipImageView
 {
     if (!_tipImageView) {
@@ -254,7 +329,7 @@ static dispatch_once_t onceToken;
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width/2 - self.messageSize.width/2, self.frame.size.height - self.messageSize.height, self.messageSize.width, self.messageSize.height)];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width/2 - (self.messageSize.width-self.spaceMarginValue)/2, self.frame.size.height - self.messageSize.height, self.messageSize.width-_spaceMarginValue, self.messageSize.height)];
         _titleLabel.text = self.message;
         _titleLabel.textColor = self.textColor;
         _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -266,44 +341,15 @@ static dispatch_once_t onceToken;
     return _titleLabel;
 }
 
-- (CGFloat)tipImageViewWH
-{
-    if (!_tipImageViewWH)
-    {
-        _tipImageViewWH = defaultImage_w_h;
-    }
-    else
-    {
-        if (_tipImageViewWH>ProgressHUD_W) {
-            _tipImageViewWH = ProgressHUD_W;
-        }
-    }
-    return _tipImageViewWH;
-}
-
-- (CGFloat)selfOriginY
-{
-    if (!_selfOriginY) {
-        _selfOriginY = FULL_SCREEN_HEIGHT/2 - self.selfSize.height/2;
-    }
-    return _selfOriginY;
-}
-
 - (void)setEnableClickBackView:(BOOL)EnableClickBackView
 {
-    if (EnableClickBackView) {
+    if (EnableClickBackView)
+    {
         [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
-    }else{
+    }else
+    {
         [UIApplication sharedApplication].keyWindow.userInteractionEnabled = NO;
     }
-}
-
-- (CGFloat)spaceMarginValue
-{
-    if (!_spaceMarginValue) {
-        _spaceMarginValue = spaceMargin;
-    }
-    return _spaceMarginValue;
 }
 
 - (UIColor *)backColor
@@ -314,14 +360,6 @@ static dispatch_once_t onceToken;
     return _backColor;
 }
 
-- (CGFloat)animationValue
-{
-    if (!_animationValue) {
-        _animationValue = defaultDelayAnimationValue;
-    }
-    return _animationValue;
-}
-
 - (UIFont *)textFont
 {
     if (!_textFont) {
@@ -329,26 +367,6 @@ static dispatch_once_t onceToken;
     }
     return _textFont;
 }
-
-- (CGFloat)alphaValue
-{
-    if (!_alphaValue) {
-        _alphaValue =  defaultAlpha;
-    }
-    if (_alphaValue>1) {
-        _alphaValue = defaultAlpha;
-    }
-    return _alphaValue;
-}
-
-- (CGFloat)cornerRadiusValue
-{
-    if (!_cornerRadiusValue) {
-        _cornerRadiusValue = selfCornerRadius;
-    }
-    return _cornerRadiusValue;
-}
-
 
 - (UIColor *)textColor
 {
@@ -358,6 +376,7 @@ static dispatch_once_t onceToken;
     return _textColor;
 }
 
+#pragma mark - private method
 -(CGSize)sizeWithFont:(UIFont *)font withString:(NSString *)string maxSize:(CGSize)maxSize
 {
     //根据系统版本确定使用哪个api

@@ -39,6 +39,7 @@
 
 - (IBAction)pop:(UIButton *)sender
 {
+    YBInstanceProgressHUD.textColor = [UIColor whiteColor];
     [YBInstanceProgressHUD showMessage:@"测试一下"];
 }
 
@@ -47,6 +48,14 @@
     NSString *tipString = @"超过20个字以后是什么样子呢让我们试试看效果看咋样了好吧这已经超过20个字了";
     
     /**第一种*/
+    YBInstanceProgressHUD.backColor = [UIColor purpleColor];
+    YBInstanceProgressHUD.cornerRadiusValue = 20;
+    YBInstanceProgressHUD.spaceMarginValue = 20;
+    YBInstanceProgressHUD.tipImageViewWH = 50;
+    YBInstanceProgressHUD.selfOriginY = 0;
+    YBInstanceProgressHUD.alphaValue = .8;
+    YBInstanceProgressHUD.animationValue = 1.5;
+    YBInstanceProgressHUD.textFont = [UIFont systemFontOfSize:15];
     YBInstanceProgressHUD.textColor = [UIColor greenColor];
     YBInstanceProgressHUD.tipImage = [UIImage imageNamed:@"yb_error"];
     [YBInstanceProgressHUD showMessage:tipString];
