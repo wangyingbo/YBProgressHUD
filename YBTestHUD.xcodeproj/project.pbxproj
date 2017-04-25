@@ -182,7 +182,6 @@
 				00045B9B1E67F7BB00545FCB /* YBProgressHUD */,
 				000D4D5F1E5D65AB005077A7 /* AppDelegate.h */,
 				000D4D601E5D65AB005077A7 /* AppDelegate.m */,
-				00045BB01E68065A00545FCB /* icon-20@2x.png */,
 				000D4D621E5D65AB005077A7 /* ViewController.h */,
 				000D4D631E5D65AB005077A7 /* ViewController.m */,
 				000D4D651E5D65AB005077A7 /* Main.storyboard */,
@@ -194,6 +193,7 @@
 		000D4D5C1E5D65AB005077A7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				00045BB01E68065A00545FCB /* icon-20@2x.png */,
 				000D4D681E5D65AB005077A7 /* Assets.xcassets */,
 				000D4D6A1E5D65AB005077A7 /* LaunchScreen.storyboard */,
 				000D4D6D1E5D65AB005077A7 /* Info.plist */,
