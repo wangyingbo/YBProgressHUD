@@ -16,7 +16,7 @@
 #define VIEWLAYOUT_H  FULL_SCREEN_HEIGHT/667
 
 #define ProgressHUD_W FULL_SCREEN_WIDTH*2/3
-#define Font_size_value 15*VIEWLAYOUT_H
+#define Font_size_value 15
 #define TextColor [UIColor whiteColor]
 #define spaceMargin 15
 #define selfCornerRadius 10
@@ -381,22 +381,26 @@ static dispatch_once_t onceToken;
 {
     //根据系统版本确定使用哪个api
     CGSize resultSize;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        
-        //段落样式
-        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-        style.lineBreakMode = NSLineBreakByWordWrapping;
-        
-        //字体大小，换行模式
-        NSDictionary *attributes = @{NSFontAttributeName : font, NSParagraphStyleAttributeName : style};
-        
-        resultSize = [string boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-    }
-    else
-    {
-        //计算文字显示需要的区域
-        resultSize = [string sizeWithFont:[UIFont systemFontOfSize:17] constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
-    }
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+//        
+//        //段落样式
+//        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+//        style.lineBreakMode = NSLineBreakByWordWrapping;
+//        
+//        //字体大小，换行模式
+//        NSDictionary *attributes = @{NSFontAttributeName : font, NSParagraphStyleAttributeName : style};
+//        
+//        resultSize = [string boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+//    }
+//    else
+//    {
+//        //计算文字显示需要的区域
+//        resultSize = [string sizeWithFont:font constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
+//    }
+    
+    
+    //计算文字显示需要的区域
+    resultSize = [string sizeWithFont:font constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
     
     return resultSize;
 }
