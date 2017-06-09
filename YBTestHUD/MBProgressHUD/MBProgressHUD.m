@@ -436,6 +436,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.adjustsFontSizeToFitWidth = NO;
 	label.textAlignment = MBLabelAlignmentCenter;
 	label.opaque = NO;
+#pragma mark - 手动换行
+    label.numberOfLines = 0;
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor whiteColor];
 	label.font = self.labelFont;
@@ -516,9 +518,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	totalSize.width = MAX(totalSize.width, indicatorF.size.width);
 	totalSize.height += indicatorF.size.height;
 	
-    CGSize labelSize = [label.text sizeWithAttributes:@{NSFontAttributeName:label.font}];
+//    CGSize labelSize = [label.text sizeWithAttributes:@{NSFontAttributeName:label.font}];
     
-//	CGSize labelSize = [label.text sizeWithFont:label.font];
+#pragma mark - 手动换行
+	CGSize labelSize = [self sizeWithFont:label.font maxW:[UIScreen mainScreen].bounds.size.width - 100 withString:label.text];
     
 	labelSize.width = MIN(labelSize.width, maxWidth);
 	totalSize.width = MAX(totalSize.width, labelSize.width);
@@ -527,11 +530,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height += kPadding;
 	}
 
-//	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
-//	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
-    CGSize detailsLabelSize = [detailsLabel.text sizeWithAttributes:@{NSFontAttributeName:detailsLabel.font}];
-//	CGSize detailsLabelSize = [detailsLabel.text sizeWithFont:detailsLabel.font 
-//								constrainedToSize:maxSize lineBreakMode:detailsLabel.lineBreakMode];
+	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
+	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
+	CGSize detailsLabelSize = [detailsLabel.text sizeWithFont:detailsLabel.font 
+								constrainedToSize:maxSize lineBreakMode:detailsLabel.lineBreakMode];
+    
+    //CGSize detailsLabelSize = [detailsLabel.text sizeWithAttributes:@{NSFontAttributeName:detailsLabel.font}];
+    
 	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
 	totalSize.height += detailsLabelSize.height;
 	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
@@ -587,6 +592,22 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	self.size = totalSize;
 }
+
+#pragma mark - 手动换行
+- (CGSize)sizeWithFont:(UIFont *)font maxW:(CGFloat)maxW withString:(NSString *)string
+{
+    NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+    attrs[NSFontAttributeName] = font;
+    CGSize maxSize = CGSizeMake(maxW, MAXFLOAT);
+    
+    // 获得系统版本
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+    } else {
+        return [string sizeWithFont:font constrainedToSize:maxSize];
+    }
+}
+
 
 #pragma mark BG Drawing
 

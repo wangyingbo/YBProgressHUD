@@ -32,9 +32,9 @@
     
     //[self testSVProgressHUD];
     
-    //[self testMBProgressHUD];
+    [self testMBProgressHUD];
     
-    [self testYBProgressHUD];
+    //[self testYBProgressHUD];
 }
 
 - (IBAction)pop:(UIButton *)sender
